@@ -182,6 +182,8 @@ int main()
             }
             write.close();
         }
+        system("PAUSE");
+        system("CLS");
     }
     else if(n==5)
     {
