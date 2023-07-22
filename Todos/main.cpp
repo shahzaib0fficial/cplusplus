@@ -29,24 +29,24 @@ int main()
     read.close();
 
     int i=0;
-    int n=0;
+    int repeat=0;
 
-    while(n!=5)
+    while(repeat!=5)
     {
     cout<<"1. Read Todos\n2. Delete Todos\n3. Update Todo\n4. Create Todos\n5. Exit\n";
-    cin>>n;
-    while(cin.fail()||(!(n>0&&n<=5)))
+    cin>>repeat;
+    while(cin.fail()||(!(repeat>0&&repeat<=5)))
     {
-        if(!(n>0&&n<=5))
+        if(!(repeat>0&&repeat<=5))
         {
-            n = checkValidInput(n,false);
+            repeat = checkValidInput(repeat,false);
         }
         else
         {
-            n = checkValidInput(n,true);
+            repeat = checkValidInput(repeat,true);
         }
     }
-    if(n>=1&&n<=4)
+    if(repeat>=1&&repeat<=4)
     {
         string todos[10];
         read.open("todos.txt");
@@ -59,13 +59,13 @@ int main()
             i++;
         }
 
-    if(todos[0]==""&&(n>=1&&n<=3))
+    if(todos[0]==""&&(repeat>=1&&repeat<=3))
         {
             cout<<"You Won't have any Todos"<<endl;
         }
     else
         {
-        if(n>=1&&n<=3)
+        if(repeat>=1&&repeat<=3)
         {
             i=0;
             while(todos[i] != "")
@@ -76,7 +76,7 @@ int main()
             cout<<"---------------------------"<<endl;
         }
 
-        if(n==2)
+        if(repeat==2)
         {
             i=0;
             int dlt;
@@ -102,7 +102,7 @@ int main()
                 }
         }
 
-        else if(n==3)
+        else if(repeat==3)
         {
             int upd;
             string updTodo;
@@ -135,7 +135,7 @@ int main()
                 }
         }
         }
-        if(n==4)
+        if(repeat==4)
         {
             i=0;
             string add;
@@ -154,7 +154,7 @@ int main()
             }
         }
 
-        if(n>=2&&n<=4)
+        if(repeat>=2&&repeat<=4)
         {
             if(todos[0]!="")
             {
@@ -171,7 +171,7 @@ int main()
 
         read.close();
 
-        if(n>=2&&n<=4)
+        if(repeat>=2&&repeat<=4)
         {
             write.open("todos.txt");
             i=0;
@@ -185,7 +185,7 @@ int main()
         system("PAUSE");
         system("CLS");
     }
-    else if(n==5)
+    else if(repeat==5)
     {
         cout<<"Thank you for using our services";
     }
