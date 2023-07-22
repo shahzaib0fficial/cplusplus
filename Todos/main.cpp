@@ -2,6 +2,19 @@
 #include<fstream>
 using namespace std;
 
+int checkValidInput(int value,bool condition)
+{
+    while(cin.fail()||(condition==false))
+        {
+            cin.clear();
+            cin.ignore();
+            cout<<"Enter valid Input: ";
+            cin>>value;
+            condition = true;
+        }
+        return value;
+}
+
 int main()
 {
     ofstream write;
@@ -22,14 +35,27 @@ int main()
     {
     cout<<"1. Read Todos\n2. Delete Todos\n3. Update Todo\n4. Create Todos\n5. Exit\n";
     cin>>n;
+    while(cin.fail()||(!(n>0&&n<=5)))
+    {
+        if(!(n>0&&n<=5))
+        {
+            n = checkValidInput(n,false);
+        }
+        else
+        {
+            n = checkValidInput(n,true);
+        }
+    }
     if(n>=1&&n<=4)
     {
         string todos[10];
         read.open("todos.txt");
         i=0;
+        int todosSize=0;
         while(read.eof() == 0)
         {
             getline(read , todos[i]);
+            todosSize++;
             i++;
         }
 
@@ -44,9 +70,10 @@ int main()
             i=0;
             while(todos[i] != "")
             {
-                cout<<i+1<<". "<<todos[i]<<endl;
+                cout<<i+1<<") "<<todos[i]<<endl;
                 i++;
             }
+            cout<<"---------------------------"<<endl;
         }
 
         if(n==2)
@@ -68,6 +95,11 @@ int main()
                 }
                 i++;
             }
+            while(dlt>=todosSize||dlt<0)
+                {
+                    dlt = checkValidInput(dlt,false);
+                    dlt = dlt-1;
+                }
         }
 
         else if(n==3)
@@ -76,6 +108,13 @@ int main()
             string updTodo;
             cout<<"Which todo you want to update: ";
             cin>>upd;
+            while(cin.fail())
+            {
+                cin.clear();
+                cin.ignore();
+                cout<<"Enter valid Input: ";
+                cin>>upd;
+            }
             upd = upd-1;
             cout<<"Write updated todo: ";
             cin.ignore();
@@ -89,6 +128,11 @@ int main()
                 }
                 i++;
             }
+            while(upd>=todosSize||upd<0)
+                {
+                    upd = checkValidInput(upd,false);
+                    upd = upd-1;
+                }
         }
         }
         if(n==4)
@@ -118,9 +162,10 @@ int main()
                 cout<<"\nNew todos are\n";
                 while(todos[i] != "")
                 {
-                    cout<<i+1<<". "<<todos[i]<<endl;
+                    cout<<i+1<<") "<<todos[i]<<endl;
                     i++;
                 }
+                cout<<"---------------------------"<<endl;
             }
         }
 
@@ -141,10 +186,6 @@ int main()
     else if(n==5)
     {
         cout<<"Thank you for using our services";
-    }
-    else
-    {
-        cout<<"Invalid Press!!!\n";
     }
     }
 }
