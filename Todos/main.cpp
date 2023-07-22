@@ -7,6 +7,14 @@ int main()
     ofstream write;
     ifstream read;
 
+    read.open("todos.txt");
+    if(!read)
+    {
+        write.open("todos.txt");
+        write.close();
+    }
+    read.close();
+
     int i=0;
     int n=0;
 
@@ -24,6 +32,13 @@ int main()
             getline(read , todos[i]);
             i++;
         }
+
+    if(todos[0]==""&&(n>=1&&n<=3))
+        {
+            cout<<"You Won't have any Todos"<<endl;
+        }
+    else
+        {
         if(n>=1&&n<=3)
         {
             i=0;
@@ -75,7 +90,8 @@ int main()
                 i++;
             }
         }
-        else if(n==4)
+        }
+        if(n==4)
         {
             i=0;
             string add;
@@ -96,12 +112,15 @@ int main()
 
         if(n>=2&&n<=4)
         {
-            i=0;
-            cout<<"\nNew todos are\n";
-            while(todos[i] != "")
+            if(todos[0]!="")
             {
-                cout<<i+1<<". "<<todos[i]<<endl;
-                i++;
+                i=0;
+                cout<<"\nNew todos are\n";
+                while(todos[i] != "")
+                {
+                    cout<<i+1<<". "<<todos[i]<<endl;
+                    i++;
+                }
             }
         }
 
