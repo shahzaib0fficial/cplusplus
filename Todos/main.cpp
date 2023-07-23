@@ -1,6 +1,9 @@
 #include<iostream>
 #include<fstream>
+#include<nlohmann/json.hpp>
+#include<string>
 using namespace std;
+using namespace nlohmann;
 
 int checkValidInput(int value,bool condition)
 {
@@ -20,10 +23,13 @@ int main()
     ofstream write;
     ifstream read;
 
-    read.open("todos.txt");
-    if(!read)
+    read.open("todos.json");
+    string check;
+    getline(read,check);
+    if(!read ||(check==""))
     {
-        write.open("todos.txt");
+        write.open("todos.json");
+        write<<"{\"todos\" : []}";
         write.close();
     }
     read.close();
@@ -49,14 +55,15 @@ int main()
     if(repeat>=1&&repeat<=4)
     {
         string todos[10];
-        read.open("todos.txt");
+        read.open("todos.json");
+        json data;
+        data = json::parse(read);
+        int todosSize = data["todos"].size();
         i=0;
-        int todosSize=0;
-        while(read.eof() == 0)
+        for(i=0;i<=todosSize-1;i++)
         {
-            getline(read , todos[i]);
-            todosSize++;
-            i++;
+            todos[i] = data["todos"][i];
+            //cout<<todos[i]<<endl;
         }
 
     if(todos[0]==""&&(repeat>=1&&repeat<=3))
@@ -83,6 +90,11 @@ int main()
             cout<<"Which one you want to delete"<<endl;
             cin>>dlt;
             dlt = dlt-1;
+            while(dlt>=todosSize||dlt<0)
+            {
+                dlt = checkValidInput(dlt,false);
+                dlt = dlt-1;
+            }
             while(todos[i] != "")
             {
                 if(i==dlt)
@@ -95,11 +107,6 @@ int main()
                 }
                 i++;
             }
-            while(dlt>=todosSize||dlt<0)
-                {
-                    dlt = checkValidInput(dlt,false);
-                    dlt = dlt-1;
-                }
         }
 
         else if(repeat==3)
@@ -108,14 +115,12 @@ int main()
             string updTodo;
             cout<<"Which todo you want to update: ";
             cin>>upd;
-            while(cin.fail())
-            {
-                cin.clear();
-                cin.ignore();
-                cout<<"Enter valid Input: ";
-                cin>>upd;
-            }
             upd = upd-1;
+            while(upd>=todosSize||upd<0)
+            {
+                upd = checkValidInput(upd,false);
+                upd = upd-1;
+            }
             cout<<"Write updated todo: ";
             cin.ignore();
             getline(cin,updTodo);
@@ -128,11 +133,7 @@ int main()
                 }
                 i++;
             }
-            while(upd>=todosSize||upd<0)
-                {
-                    upd = checkValidInput(upd,false);
-                    upd = upd-1;
-                }
+
         }
         }
         if(repeat==4)
@@ -173,13 +174,15 @@ int main()
 
         if(repeat>=2&&repeat<=4)
         {
-            write.open("todos.txt");
+            write.open("todos.json");
+            data["todos"] = {};
             i=0;
             while(todos[i] != "")
             {
-                write<<todos[i]<<endl;
+                data["todos"][i] = todos[i];
                 i++;
             }
+            write<<"{\"todos\":"<<data["todos"]<<"}";
             write.close();
         }
         system("PAUSE");
