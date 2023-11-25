@@ -67,6 +67,11 @@ void enQueue()
                     tempFront->nextAddress = node;
                     break;
                 }
+                else if(tempFront->nextAddress->nextAddress == NULL)
+                {
+                    tempFront->nextAddress->nextAddress = node;
+                    break;
+                }
                 else
                 {
                     tempFront = tempFront->nextAddress;
@@ -120,6 +125,8 @@ void Display()
 
 int main()
 {
+    enQueue();
+    enQueue();
     enQueue();
     enQueue();
     enQueue();
