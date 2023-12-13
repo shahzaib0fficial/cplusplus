@@ -41,7 +41,7 @@ void insertInTree()
                     tempRoot = tempRoot->left;
                 }
             }
-            else
+            else if(node->data > tempRoot->data)
             {
                 if(tempRoot->right == NULL)
                 {
@@ -52,6 +52,11 @@ void insertInTree()
                 {
                     tempRoot = tempRoot->right;
                 }
+            }
+            else
+            {
+                cout<<"Value you are inserting is already exists"<<endl;
+                break;
             }
         }
     }
@@ -195,7 +200,6 @@ int main()
     insertInTree();
     insertInTree();
     insertInTree();
-
 
     cout<<"In Oder"<<endl;
     inOrder(root);
