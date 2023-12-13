@@ -198,11 +198,11 @@ int main()
 
 
     cout<<"In Oder"<<endl;
-    //inOrder(root);
+    inOrder(root);
     cout<<"Pre Oder"<<endl;
-    //preOrder(root);
+    preOrder(root);
     cout<<"Post Oder"<<endl;
-    //postOrder(root);
+    postOrder(root);
     cout<<"Level Oder"<<endl;
     levelOder(root);
 }
