@@ -99,6 +99,93 @@ void preOrder(Tree* node)
     }
 }
 
+struct List
+{
+    int data;
+    List* address;
+};
+
+List* Front = NULL;
+
+void enQueue(Tree* node)
+{
+    if(Front == NULL)
+    {
+        Front = new List;
+        Front->data = node->data;
+        Front->address = NULL;
+    }
+    else
+    {
+        List* tempFront = Front;
+        while(tempFront)
+        {
+            if(tempFront->address == NULL)
+            {
+                tempFront->address = new List;
+                tempFront->address->data = node->data;
+                tempFront->address->address = NULL;
+                break;
+            }
+            else
+            {
+                tempFront = tempFront->address;
+            }
+        }
+    }
+}
+
+void deQueue()
+{
+    Front = Front->address;
+}
+
+void searchInQueue(int data)
+{
+    Tree* tempRoot = root;
+    while(tempRoot != NULL)
+    {
+        if(tempRoot->data == Front->data)
+        {
+            if(tempRoot->left != NULL)
+            {
+                enQueue(tempRoot->left);
+            }
+            if(tempRoot->right != NULL)
+            {
+                enQueue(tempRoot->right);
+            }
+            break;
+        }
+        else if(data < tempRoot->data)
+        {
+            tempRoot = tempRoot->left;
+        }
+        else
+        {
+            tempRoot = tempRoot->right;
+        }
+    }
+}
+
+void levelOder(Tree* node)
+{
+    if(node == NULL)
+    {
+        cout<<"Tree is Empty"<<endl;
+    }
+    else
+    {
+        enQueue(node);
+        while(Front != NULL)
+        {
+            cout<<"Value : "<<Front->data<<endl;
+            searchInQueue(Front->data);
+            deQueue();
+        }
+    }
+}
+
 int main()
 {
     insertInTree();
@@ -109,10 +196,13 @@ int main()
     insertInTree();
     insertInTree();
 
+
     cout<<"In Oder"<<endl;
-    inOrder(root);
+    //inOrder(root);
     cout<<"Pre Oder"<<endl;
-    preOrder(root);
+    //preOrder(root);
     cout<<"Post Oder"<<endl;
-    postOrder(root);
+    //postOrder(root);
+    cout<<"Level Oder"<<endl;
+    levelOder(root);
 }
